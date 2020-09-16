@@ -321,22 +321,6 @@ public class Cube {
         return retArr;
     }
 
-    public char[][] rotateSideCounterClockWise(char[][] src){
-        char[][] retArr = new char[3][3];
-        retArr[0][0] = src[0][2];
-        retArr[0][1] = src[1][2];
-        retArr[0][2] = src[2][2];
-
-        retArr[1][0] = src[0][1];
-        retArr[1][1] = src[1][1];
-        retArr[1][2] = src[2][1];
-
-        retArr[2][0] = src[0][0];
-        retArr[2][1] = src[1][0];
-        retArr[2][2] = src[2][0];
-        return retArr;
-    }
-
     public char[][] getOneCenterSide(){
         return this.oneCenterSide;
     }
