@@ -22,6 +22,14 @@ public class CubeSolverBeg {
         this.cubeToSolve.turnUi();
     }
 
+    public void orientFlippedWhiteEdge(){
+        this.cubeToSolve.turnF2();
+        this.cubeToSolve.turnUi();
+        this.cubeToSolve.turnRi();
+        this.cubeToSolve.turnF();
+        this.cubeToSolve.turnR();
+    }
+
     public void performRightMidInsert() {
         this.cubeToSolve.turnU();
         this.cubeToSolve.turnR();
@@ -196,13 +204,128 @@ public class CubeSolverBeg {
         this.cubeToSolve.turnU2();
     }
 
+    public void finishWhiteCross(){
+        //White-Red Edge
+        this.repositionRedAsOne();
+        int indexOfWREdge = this.findPiece(0);
+        if(this.cubeToSolve.currentCubeState.get(0).getId() != 0) {
+            if (indexOfWREdge < 8) {
+                while (this.cubeToSolve.currentCubeState.get(0).getId() != 0) {
+                    this.cubeToSolve.turnD();
+                }
+            }
+            if (indexOfWREdge < 12) {
+                while (this.cubeToSolve.currentCubeState.get(11).getId() != 0) {
+                    this.cubeToSolve.rotateY();
+                }
+                this.cubeToSolve.turnR();
+                this.repositionRedAsOne();
+            }
+            if (indexOfWREdge > 11) {
+                while (this.cubeToSolve.currentCubeState.get(12).getId() != 0) {
+                    this.cubeToSolve.turnU();
+                }
+                this.cubeToSolve.turnF2();
+            }
+        }
+        if (this.cubeToSolve.fiveCenterSide[0][1] != 'w') {
+            this.orientFlippedWhiteEdge();
+        }
+
+        //White-Blue Edge
+        this.repositionBlueAsOne();
+        int indexOfWBEdge = this.findPiece(1);
+        if(this.cubeToSolve.currentCubeState.get(0).getId() != 1){
+            if(indexOfWBEdge < 8){
+                while (this.cubeToSolve.currentCubeState.get(6).getId() != 1) {
+                    this.cubeToSolve.rotateY();
+                }
+                this.cubeToSolve.turnR2();
+                this.repositionBlueAsOne();
+            }
+            if(indexOfWBEdge < 12){
+                while(this.cubeToSolve.currentCubeState.get(11).getId() != 1){
+                    this.cubeToSolve.rotateY();
+                }
+                this.performRURiUi();
+                this.repositionBlueAsOne();
+            }
+            if(indexOfWBEdge > 11){
+                while(this.cubeToSolve.currentCubeState.get(12).getId() != 1){
+                    this.cubeToSolve.turnU();
+                }
+                this.cubeToSolve.turnF2();
+            }
+        }
+        if(this.cubeToSolve.fiveCenterSide[0][1] != 'w'){
+            this.orientFlippedWhiteEdge();
+        }
+
+        //White-Orange Edge
+        this.repositionOrangeAsOne();
+        int indexOfWOEdge = this.findPiece(2);
+        if(this.cubeToSolve.currentCubeState.get(0).getId() != 2){
+            if(indexOfWOEdge < 8){
+                while(this.cubeToSolve.currentCubeState.get(6).getId() != 2){
+                    this.cubeToSolve.rotateY();
+                }
+                this.cubeToSolve.turnR2();
+                this.repositionOrangeAsOne();
+            }
+            if(indexOfWOEdge <12){
+                while(this.cubeToSolve.currentCubeState.get(11).getId() != 2){
+                    this.cubeToSolve.turnU();
+                }
+                this.performRURiUi();
+                this.repositionOrangeAsOne();
+            }
+            if(indexOfWOEdge > 11){
+                while(this.cubeToSolve.currentCubeState.get(12).getId() != 2){
+                    this.cubeToSolve.turnU();
+                }
+                this.cubeToSolve.turnF2();
+            }
+        }
+        if(this.cubeToSolve.fiveCenterSide[0][1] != 'w'){
+            this.orientFlippedWhiteEdge();
+        }
+
+        //White-Green Edge
+        this.repositionGreenAsOne();
+        int indexOfWGEdge = this.findPiece(3);
+        if(this.cubeToSolve.currentCubeState.get(0).getId() != 3){
+            if(indexOfWGEdge < 8){
+                while(this.cubeToSolve.currentCubeState.get(6).getId() != 3){
+                    this.cubeToSolve.rotateY();
+                }
+                this.cubeToSolve.turnR2();
+                this.repositionGreenAsOne();
+            }
+            if(indexOfWGEdge < 12){
+                while(this.cubeToSolve.currentCubeState.get(11).getId() != 3){
+                    this.cubeToSolve.turnU();
+                }
+                this.performRURiUi();
+                this.repositionGreenAsOne();
+            }
+            if(indexOfWGEdge > 11){
+                while(this.cubeToSolve.currentCubeState.get(12).getId() != 3){
+                    this.cubeToSolve.turnU();
+                }
+                this.cubeToSolve.turnF2();
+            }
+        }
+        if(this.cubeToSolve.fiveCenterSide[0][1] != 'w'){
+            this.orientFlippedWhiteEdge();
+        }
+    }
+
     public void insertWhiteCorners(){
         this.repositionBlueAsOne();
         int indexOfWRBCor = this.findPiece(4);
-        CubePieces WRBCorner = this.cubeToSolve.currentCubeState.get(indexOfWRBCor);
         if(this.cubeToSolve.currentCubeState.get(7).getId() != 4) {
             if (indexOfWRBCor < 8) {
-                while (!WRBCorner.equals(this.cubeToSolve.currentCubeState.get(7))) {
+                while (this.cubeToSolve.currentCubeState.get(7).getId() != 4) {
                     this.cubeToSolve.rotateY();
                 }
                 this.performRURiUi();
@@ -222,10 +345,9 @@ public class CubeSolverBeg {
         //WBO Corner
         this.repositionOrangeAsOne();
         int indexOfWBOCor = this.findPiece(5);
-        CubePieces WBOCorner = this.cubeToSolve.currentCubeState.get(indexOfWBOCor);
         if(this.cubeToSolve.currentCubeState.get(7).getId() != 5) {
             if (indexOfWBOCor < 8) {
-                while (!WRBCorner.equals(this.cubeToSolve.currentCubeState.get(7))) {
+                while (this.cubeToSolve.currentCubeState.get(7).getId() != 5) {
                     this.cubeToSolve.rotateY();
                 }
                 this.performRURiUi();
@@ -245,10 +367,9 @@ public class CubeSolverBeg {
         //WOG Corner
         this.repositionGreenAsOne();
         int indexOfWOGCor = this.findPiece(6);
-        CubePieces WOGCorner = this.cubeToSolve.currentCubeState.get(indexOfWOGCor);
         if(this.cubeToSolve.currentCubeState.get(7).getId() != 6) {
             if (indexOfWOGCor < 8) {
-                while (!WOGCorner.equals(this.cubeToSolve.currentCubeState.get(7))) {
+                while (this.cubeToSolve.currentCubeState.get(7).getId() != 6) {
                     this.cubeToSolve.rotateY();
                 }
                 this.performRURiUi();
@@ -267,10 +388,9 @@ public class CubeSolverBeg {
         //WGR Corner
         this.repositionRedAsOne();
         int indexOfWGRCor = this.findPiece(7);
-        CubePieces WGRCorner = this.cubeToSolve.currentCubeState.get(indexOfWGRCor);
         if(this.cubeToSolve.currentCubeState.get(7).getId() != 7) {
             if (indexOfWGRCor < 8) {
-                while (!WGRCorner.equals(this.cubeToSolve.currentCubeState.get(7))) {
+                while (this.cubeToSolve.currentCubeState.get(7).getId() != 7) {
                     this.cubeToSolve.rotateY();
                 }
                 this.performRURiUi();
@@ -292,12 +412,11 @@ public class CubeSolverBeg {
         //Red-Blue Mid Edge
         this.repositionRedAsOne();
         int indexOfRedBlueEdge = this.findPiece(8);
-        CubePieces redBlueEdge = this.cubeToSolve.currentCubeState.get(indexOfRedBlueEdge);
         if (indexOfRedBlueEdge < 8) {
             throw new IllegalStateException("1st Layer Not Solved");
         }
-        if (indexOfRedBlueEdge > 8 && indexOfRedBlueEdge < 12) {
-            while (!redBlueEdge.equals(this.cubeToSolve.currentCubeState.get(11))) {
+        if (indexOfRedBlueEdge < 12) {
+            while (this.cubeToSolve.currentCubeState.get(11).getId() != 8) {
                 this.cubeToSolve.rotateY();
             }
             this.performRightMidInsert();
@@ -321,12 +440,11 @@ public class CubeSolverBeg {
         //Blue-Orange Mid Edge
         this.repositionBlueAsOne();
         int indexOfBlueOrangeEdge = this.findPiece(9);
-        CubePieces blueOrangeEdge = this.cubeToSolve.currentCubeState.get(indexOfBlueOrangeEdge);
         if (indexOfBlueOrangeEdge < 8) {
             throw new IllegalStateException("1st Layer Not Solved");
         }
-        if (indexOfBlueOrangeEdge > 8 && indexOfBlueOrangeEdge < 12) {
-            while (!blueOrangeEdge.equals(this.cubeToSolve.currentCubeState.get(11))) {
+        if (indexOfBlueOrangeEdge < 12) {
+            while (this.cubeToSolve.currentCubeState.get(11).getId() != 9) {
                 this.cubeToSolve.rotateY();
             }
             this.performRightMidInsert();
@@ -350,12 +468,11 @@ public class CubeSolverBeg {
         //Orange-Green Mid Edge
         this.repositionOrangeAsOne();
         int indexOfOrangeGreenEdge = this.findPiece(10);
-        CubePieces orangeGreenEdge = this.cubeToSolve.currentCubeState.get(indexOfOrangeGreenEdge);
         if (indexOfOrangeGreenEdge < 8) {
             throw new IllegalStateException("1st Layer Not Solved");
         }
-        if (indexOfOrangeGreenEdge > 8 && indexOfOrangeGreenEdge < 12) {
-            while (!orangeGreenEdge.equals(this.cubeToSolve.currentCubeState.get(11))) {
+        if (indexOfOrangeGreenEdge < 12) {
+            while (this.cubeToSolve.currentCubeState.get(11).getId() != 10) {
                 this.cubeToSolve.rotateY();
             }
             this.performRightMidInsert();
@@ -379,12 +496,11 @@ public class CubeSolverBeg {
         //Green-Red Mid Edge
         this.repositionGreenAsOne();
         int indexOfGreenRedEdge = this.findPiece(11);
-        CubePieces greenRedEdge = this.cubeToSolve.currentCubeState.get(indexOfGreenRedEdge);
         if (indexOfGreenRedEdge < 8) {
             throw new IllegalStateException("1st Layer Not Solved");
         }
-        if (indexOfGreenRedEdge > 8 && indexOfGreenRedEdge < 12) {
-            while (!greenRedEdge.equals(this.cubeToSolve.currentCubeState.get(11))) {
+        if (indexOfGreenRedEdge < 12) {
+            while (this.cubeToSolve.currentCubeState.get(11).getId() != 11) {
                 this.cubeToSolve.rotateY();
             }
             this.performRightMidInsert();
@@ -622,7 +738,8 @@ public class CubeSolverBeg {
     }
 
     public void solveCubeBeginnersMethod() {
-
+        //White Cross
+        this.finishWhiteCross();
         //White Corners
         this.insertWhiteCorners();
         //Middle Edges

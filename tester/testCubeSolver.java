@@ -77,6 +77,13 @@ public class testCubeSolver {
         algCubeTest.cubeToSolve.rotateYi();
         algCubeTest.performRURiUi();
         algCubeTest.cubeToSolve.rotateYi();
+        algCubeTest.cubeToSolve.turnR2();
+        algCubeTest.cubeToSolve.turnUi();
+        algCubeTest.cubeToSolve.turnF2();
+        algCubeTest.cubeToSolve.rotateYi();
+        algCubeTest.cubeToSolve.turnF();
+        algCubeTest.cubeToSolve.rotateYi();
+        algCubeTest.cubeToSolve.turnFi();
         solvedCubeTest.printState();
         System.out.println(algCubeTest.checkSolved());
 
