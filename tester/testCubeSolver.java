@@ -69,17 +69,14 @@ public class testCubeSolver {
         Cube solvedCubeTest = new Cube(solvedCube, redSide, blueSide, orangeSide, greenSide, whiteSide, yellowSide);
         CubeSolverBeg algCubeTest = new CubeSolverBeg(solvedCubeTest);
 
-        algCubeTest.performHPerm();
-        algCubeTest.performSune();
-        algCubeTest.cubeToSolve.turnUi();
-        algCubeTest.performAntSune();
-        algCubeTest.performRightMidInsert();
-        algCubeTest.cubeToSolve.rotateY();
-        algCubeTest.performRightMidInsert();
-        algCubeTest.cubeToSolve.rotateY2();
-        algCubeTest.performRightMidInsert();
+        algCubeTest.performRURiUi();
         algCubeTest.cubeToSolve.rotateYi();
-        algCubeTest.performRightMidInsert();
+        algCubeTest.performRURiUi();
+        algCubeTest.cubeToSolve.rotateYi();
+        algCubeTest.performRURiUi();
+        algCubeTest.cubeToSolve.rotateYi();
+        algCubeTest.performRURiUi();
+        algCubeTest.cubeToSolve.rotateYi();
         solvedCubeTest.printState();
         System.out.println(algCubeTest.checkSolved());
 

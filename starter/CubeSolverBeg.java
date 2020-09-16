@@ -16,10 +16,10 @@ public class CubeSolverBeg {
     }
 
     public void performRURiUi() {
-        this.cubeToSolve.turnU();
         this.cubeToSolve.turnR();
-        this.cubeToSolve.turnUi();
+        this.cubeToSolve.turnU();
         this.cubeToSolve.turnRi();
+        this.cubeToSolve.turnUi();
     }
 
     public void performRightMidInsert() {
@@ -194,6 +194,98 @@ public class CubeSolverBeg {
         this.cubeToSolve.turnU();
         this.cubeToSolve.turnR();
         this.cubeToSolve.turnU2();
+    }
+
+    public void insertWhiteCorners(){
+        this.repositionBlueAsOne();
+        int indexOfWRBCor = this.findPiece(4);
+        CubePieces WRBCorner = this.cubeToSolve.currentCubeState.get(indexOfWRBCor);
+        if(this.cubeToSolve.currentCubeState.get(7).getId() != 4) {
+            if (indexOfWRBCor < 8) {
+                while (!WRBCorner.equals(this.cubeToSolve.currentCubeState.get(7))) {
+                    this.cubeToSolve.rotateY();
+                }
+                this.performRURiUi();
+                indexOfWRBCor = this.findPiece(4);
+                this.repositionBlueAsOne();
+            }
+            if (indexOfWRBCor > 11) {
+                while (this.cubeToSolve.currentCubeState.get(19).getId() != 4) {
+                    this.cubeToSolve.turnU();
+                }
+                while (this.cubeToSolve.fiveCenterSide[0][2] != 'w') {
+                    this.performRURiUi();
+                }
+            }
+        }
+
+        //WBO Corner
+        this.repositionOrangeAsOne();
+        int indexOfWBOCor = this.findPiece(5);
+        CubePieces WBOCorner = this.cubeToSolve.currentCubeState.get(indexOfWBOCor);
+        if(this.cubeToSolve.currentCubeState.get(7).getId() != 5) {
+            if (indexOfWBOCor < 8) {
+                while (!WRBCorner.equals(this.cubeToSolve.currentCubeState.get(7))) {
+                    this.cubeToSolve.rotateY();
+                }
+                this.performRURiUi();
+                indexOfWBOCor = this.findPiece(5);
+                this.repositionOrangeAsOne();
+            }
+            if (indexOfWBOCor > 11) {
+                while (this.cubeToSolve.currentCubeState.get(19).getId() != 5) {
+                    this.cubeToSolve.turnU();
+                }
+                while (this.cubeToSolve.fiveCenterSide[0][2] != 'w') {
+                    this.performRURiUi();
+                }
+            }
+        }
+
+        //WOG Corner
+        this.repositionGreenAsOne();
+        int indexOfWOGCor = this.findPiece(6);
+        CubePieces WOGCorner = this.cubeToSolve.currentCubeState.get(indexOfWOGCor);
+        if(this.cubeToSolve.currentCubeState.get(7).getId() != 6) {
+            if (indexOfWOGCor < 8) {
+                while (!WOGCorner.equals(this.cubeToSolve.currentCubeState.get(7))) {
+                    this.cubeToSolve.rotateY();
+                }
+                this.performRURiUi();
+                indexOfWOGCor = this.findPiece(6);
+                this.repositionGreenAsOne();
+            }
+            if (indexOfWOGCor > 11) {
+                while (this.cubeToSolve.currentCubeState.get(19).getId() != 6) {
+                    this.cubeToSolve.turnU();
+                }
+                while (this.cubeToSolve.fiveCenterSide[0][2] != 'w') {
+                    this.performRURiUi();
+                }
+            }
+        }
+        //WGR Corner
+        this.repositionRedAsOne();
+        int indexOfWGRCor = this.findPiece(7);
+        CubePieces WGRCorner = this.cubeToSolve.currentCubeState.get(indexOfWGRCor);
+        if(this.cubeToSolve.currentCubeState.get(7).getId() != 7) {
+            if (indexOfWGRCor < 8) {
+                while (!WGRCorner.equals(this.cubeToSolve.currentCubeState.get(7))) {
+                    this.cubeToSolve.rotateY();
+                }
+                this.performRURiUi();
+                indexOfWGRCor = this.findPiece(7);
+                this.repositionRedAsOne();
+            }
+            if (indexOfWGRCor > 11) {
+                while (this.cubeToSolve.currentCubeState.get(19).getId() != 7) {
+                    this.cubeToSolve.turnU();
+                }
+                while (this.cubeToSolve.fiveCenterSide[0][2] != 'w') {
+                    this.performRURiUi();
+                }
+            }
+        }
     }
 
     public void insertMiddleEdges() {
@@ -531,6 +623,8 @@ public class CubeSolverBeg {
 
     public void solveCubeBeginnersMethod() {
 
+        //White Corners
+        this.insertWhiteCorners();
         //Middle Edges
         this.insertMiddleEdges();
         //OLL
