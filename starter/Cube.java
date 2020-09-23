@@ -41,65 +41,6 @@ public class Cube {
         this.sixCenterSide = sixCenterSide;
     }
 
-    public void initializePossibleCubePiecesBeg() {
-        CubePieces wrEdge = new CubePieces('w', 'r', '\0', 2, 0);
-        CubePieces wbEdge = new CubePieces('w', 'b', '\0', 2, 1);
-        CubePieces woEdge = new CubePieces('w', 'o', '\0', 2, 2);
-        CubePieces wgEdge = new CubePieces('w', 'g', '\0', 2, 3);
-
-        CubePieces wrbCor = new CubePieces('w', 'r', 'b', 3, 4);
-        CubePieces wboCor = new CubePieces('w', 'b', 'o', 3, 5);
-        CubePieces wogCor = new CubePieces('w', 'o', 'g', 3, 6);
-        CubePieces wgrCor = new CubePieces('w', 'g', 'r', 3, 7);
-
-        CubePieces rbEdge = new CubePieces('r', 'b', 'm', 2, 8);
-        CubePieces boEdge = new CubePieces('b', 'o', 'm', 2, 9);
-        CubePieces ogEdge = new CubePieces('o', 'g', 'm', 2, 10);
-        CubePieces grEdge = new CubePieces('g', 'r', 'm', 2, 11);
-
-        CubePieces yrEdge = new CubePieces('y', 'r', '\0', 2, 12);
-        CubePieces ybEdge = new CubePieces('y', 'b', '\0', 2, 13);
-        CubePieces yoEdge = new CubePieces('y', 'o', '\0', 2, 14);
-        CubePieces ygEdge = new CubePieces('y', 'g', '\0', 2, 15);
-
-        CubePieces yrbCor = new CubePieces('y', 'r', 'b', 3, 16);
-        CubePieces yboCor = new CubePieces('y', 'b', 'o', 3, 17);
-        CubePieces yogCor = new CubePieces('y', 'o', 'g', 3, 18);
-        CubePieces ygrCor = new CubePieces('y', 'g', 'r', 3, 19);
-
-        Hashtable<Integer, CubePieces> possiblePiecesList = new Hashtable<>(20);
-        possiblePiecesList.put(0, wrEdge);
-        possiblePiecesList.put(1, wbEdge);
-        possiblePiecesList.put(2, woEdge);
-        possiblePiecesList.put(3, wgEdge);
-
-        possiblePiecesList.put(4, wrbCor);
-        possiblePiecesList.put(5, wboCor);
-        possiblePiecesList.put(6, wogCor);
-        possiblePiecesList.put(7, wgrCor);
-
-        possiblePiecesList.put(8, rbEdge);
-        possiblePiecesList.put(9, boEdge);
-        possiblePiecesList.put(10, ogEdge);
-        possiblePiecesList.put(11, grEdge);
-
-        possiblePiecesList.put(12, yrEdge);
-        possiblePiecesList.put(13, ybEdge);
-        possiblePiecesList.put(14, yoEdge);
-        possiblePiecesList.put(15, ygEdge);
-
-        possiblePiecesList.put(16, yrbCor);
-        possiblePiecesList.put(17, yboCor);
-        possiblePiecesList.put(18, yogCor);
-        possiblePiecesList.put(19, ygrCor);
-
-        allPieces = possiblePiecesList;
-    }
-    //0,4,1,5,2,6,3,7
-    //8,9,10,11
-    //12,16,13,17,14,18,15,19
-
-
     public void turnU() {
         CubePieces temporaryStore18th = this.currentCubeState.get(18);
         CubePieces temporaryStore19th = this.currentCubeState.get(19);
@@ -230,13 +171,13 @@ public class Cube {
         this.turnF2();
     }
     public void turnD(){
-        CubePieces temporaryStoreID3 = this.currentCubeState.get(6);
-        CubePieces temporaryStoreID7 = this.currentCubeState.get(7);
-        for(int i = 7; i > 1; i--){
-            this.currentCubeState.set(i, this.currentCubeState.get(i-2));
+        CubePieces temporaryStoreID0 = this.currentCubeState.get(0);
+        CubePieces temporaryStoreID1 = this.currentCubeState.get(1);
+        for(int i = 0; i < 6; i++){
+            this.currentCubeState.set(i, this.currentCubeState.get(i+2));
         }
-        this.currentCubeState.set(0, temporaryStoreID3);
-        this.currentCubeState.set(1, temporaryStoreID7);
+        this.currentCubeState.set(6, temporaryStoreID0);
+        this.currentCubeState.set(7, temporaryStoreID1);
 
         char oneCenter20 = oneCenterSide[2][0];
         char oneCenter21 = oneCenterSide[2][1];
@@ -260,6 +201,38 @@ public class Cube {
     public void turnDi(){
         this.turnD();
         this.turnD2();
+    }
+
+    public void turnL(){
+        this.rotateY2();
+        this.turnR();
+        this.rotateY2();
+    }
+
+    public void turnL2(){
+        this.turnL();
+        this.turnL();
+    }
+
+    public void turnLi(){
+        this.turnL2();
+        this.turnL();
+    }
+
+    public void turnB(){
+        this.rotateY2();
+        this.turnF();
+        this.rotateY2();
+    }
+
+    public void turnB2(){
+        this.turnB();
+        this.turnB();
+    }
+
+    public void turnBi(){
+        this.turnB2();
+        this.turnB();
     }
 
 
@@ -307,34 +280,29 @@ public class Cube {
 
     public char[][] rotateSideClockWise(char[][] src){
         char[][] retArr = new char[3][3];
-        retArr[0][2] = src[0][0];
-        retArr[1][2] = src[0][1];
-        retArr[2][2] = src[0][2];
-
-        retArr[0][1] = src[1][0];
-        retArr[1][1] = src[1][1];
-        retArr[2][1] = src[1][2];
-
-        retArr[0][0] = src[2][0];
-        retArr[1][0] = src[2][1];
-        retArr[2][0] = src[2][2];
-
+        for(int i = 0; i < 3; i++){
+            retArr[i][2] = src[0][i];
+        }
+        for(int i = 0; i < 3; i++){
+            retArr[i][1] = src[1][i];
+        }
+        for(int i = 0; i < 3; i++){
+            retArr[i][0] = src[2][i];
+        }
         return retArr;
     }
 
     public char[][] rotateSideCounterClockWise(char[][] src){
         char[][] retArr = new char[3][3];
-        retArr[0][0] = src[0][2];
-        retArr[0][1] = src[1][2];
-        retArr[0][2] = src[2][2];
-
-        retArr[1][0] = src[0][1];
-        retArr[1][1] = src[1][1];
-        retArr[1][2] = src[2][1];
-
-        retArr[2][0] = src[0][0];
-        retArr[2][1] = src[1][0];
-        retArr[2][2] = src[2][0];
+        for(int i = 0; i < 3; i++){
+            retArr[0][i] = src[i][2];
+        }
+        for(int i = 0; i < 3; i++){
+            retArr[1][i] = src[i][1];
+        }
+        for(int i = 0; i < 3; i++){
+            retArr[2][i] = src[i][0];
+        }
         return retArr;
     }
 
@@ -369,6 +337,83 @@ public class Cube {
         System.out.println("Side 4: " + Arrays.deepToString(fourCenterSide));
         System.out.println("Side 5: " + Arrays.deepToString(fiveCenterSide));
         System.out.println("Side 6: " + Arrays.deepToString(sixCenterSide));
+    }
+
+    public void scrambleString(String scramble){
+        for(int i = 0; i < scramble.length()-1; i++){
+            if(scramble.charAt(i+1) == '\''){
+                if(scramble.charAt(i) == 'U'){
+                    this.turnUi();
+                }
+                else if(scramble.charAt(i) == 'R'){
+                    this.turnRi();
+                }
+                else if(scramble.charAt(i) == 'F'){
+                    this.turnFi();
+                }
+                else if(scramble.charAt(i) == 'D'){
+                    this.turnDi();
+                }
+                else if(scramble.charAt(i) == 'B'){
+                    this.turnBi();
+                }
+                else if(scramble.charAt(i) == 'L'){
+                    this.turnLi();
+                }
+                else{
+                    throw new IllegalArgumentException("INVALID MOVE");
+                }
+                i = i + 2;
+            }
+            else if(scramble.charAt(i+1) == '2'){
+                if(scramble.charAt(i) == 'U'){
+                    this.turnU2();
+                }
+                else if(scramble.charAt(i) == 'R'){
+                    this.turnR2();
+                }
+                else if(scramble.charAt(i) == 'F'){
+                    this.turnF2();
+                }
+                else if(scramble.charAt(i) == 'D'){
+                    this.turnD2();
+                }
+                else if(scramble.charAt(i) == 'B'){
+                    this.turnB2();
+                }
+                else if(scramble.charAt(i) == 'L'){
+                    this.turnL2();
+                }
+                else{
+                    throw new IllegalArgumentException("INVALID MOVE");
+                }
+                i = i + 2;
+            }
+            else if(scramble.charAt(i+1) == ' '){
+                if(scramble.charAt(i) == 'U'){
+                    this.turnU();
+                }
+                else if(scramble.charAt(i) == 'R'){
+                    this.turnR();
+                }
+                else if(scramble.charAt(i) == 'F'){
+                    this.turnF();
+                }
+                else if(scramble.charAt(i) == 'D'){
+                    this.turnD();
+                }
+                else if(scramble.charAt(i) == 'B'){
+                    this.turnB();
+                }
+                else if(scramble.charAt(i) == 'L'){
+                    this.turnL();
+                }
+                else{
+                    throw new IllegalArgumentException("INVALID MOVE");
+                }
+                i++;
+            }
+        }
     }
 
 }
