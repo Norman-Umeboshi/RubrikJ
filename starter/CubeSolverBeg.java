@@ -42,7 +42,6 @@ public class CubeSolverBeg {
     final static int THIRD_LAYER_INDEX_SIXTEEN = 16;
     final static int THIRD_LAYER_INDEX_SEVENTEEN = 17;
     final static int THIRD_LAYER_INDEX_EIGHTEEN = 18;
-    final static int THIRD_LAYER_INDEX_NINETEEN = 19;
 
     final static int ZEROTH_COL_ROW_MATRIX = 0;
     final static int FIRST_COL_ROW_MATRIX = 1;
@@ -56,12 +55,10 @@ public class CubeSolverBeg {
     final static int YELLOW_CHAR_FLAG = 'y';
     final static int NONE_CHAR_FLAG = 'n';
 
-    final static String WHITE_STRING_FLAG = "white ";
     final static String RED_STRING_FLAG = "red ";
     final static String BLUE_STRING_FLAG = "blue ";
     final static String ORANGE_STRING_FLAG = "orange ";
     final static String GREEN_STRING_FLAG = "green ";
-    final static String YELLOW_STRING_FLAG = "yellow ";
 
     final static int YELLOW_EOLL_DOT_INT = 1;
     final static int YELLOW_EOLL_LINE_OR_L_INT = 3;
@@ -113,6 +110,15 @@ public class CubeSolverBeg {
     final static String RB_EDGE_MIDDLE_LAYER_INITIAL = "We can see that the Red-Blue Edge piece is located in the middle layer ";
     final static String RB_EDGE_TOP_LAYER_INITIAL = "We can see that the Red-Blue Edge piece is located in the top layer ";
 
+    final static String BO_EDGE_MIDDLE_LAYER_INITIAL = "We can see that the Blue-Orange Edge piece is located in the middle layer ";
+    final static String BO_EDGE_TOP_LAYER_INITIAL = "We can see that the Blue-Orange Edge piece is located in the top layer ";
+
+    final static String OG_EDGE_MIDDLE_LAYER_INITIAL = "We can see that the Orange-Green Edge piece is located in the middle layer ";
+    final static String OG_EDGE_TOP_LAYER_INITIAL = "We can see that the Orange-Green Edge piece is located in the top layer ";
+
+    final static String GR_EDGE_MIDDLE_LAYER_INITIAL = "We can see that the Green-Red Edge piece is located in the middle layer ";
+    final static String GR_EDGE_TOP_LAYER_INITIAL = "We can see that the Green-Red Edge piece is located in the top layer ";
+
     final static String ROTATION_PHRASE_Y = "rotate the cube to the left (Y) ";
     final static String ROTATION_PHRASE_Y2 = "rotate the cube to the right twice (Y2) ";
     final static String ROTATION_PHRASE_Yi = "rotate the cube to the right (Y') ";
@@ -152,13 +158,21 @@ public class CubeSolverBeg {
     final static String SIDE_CORNER_SOLVED = "Looks like the corner is in the correct location and in the correct orientation. Let us move onto the next corner\n";
     final static String SIDE_CORNER_SOLVED_FINISH = "Looks like the corner is in the correct location and in the correct orientation. Let us move onto the next step\n";
 
-    final static String MID_LAYER_BACK_LEFT = "at the back-left slot.\nSimply " + ROTATION_PHRASE_Y2 + "and perform the following algorithm so that it ends up at the top layer:\n";
-    final static String MID_LAYER_BACK_RIGHT = "at the back-right slot.\nSimply " + ROTATION_PHRASE_Y + "and perform the following algorithm so that it ends up at the top layer:\n";
-    final static String MID_LAYER_FRONT_RIGHT = "at the front-right slot.\nSimply perform the following algorithm so that it ends up at the top layer:\n";
-    final static String MID_LAYER_FRONT_LEFT = "at the front-left slot.\n";
-    final static String MID_LAYER_FRONT_LEFT_UNSOLVED = "And unfortunately it looks unsolved so we have to " + ROTATION_PHRASE_Yi + "so that the edge is moved from the front-left to the front-right" +
+    final static String MID_LAYER_F2L_BACK_LEFT = "at the back-left slot.\nSimply " + ROTATION_PHRASE_Y2 + "and perform the following algorithm so that it ends up at the top layer:\n";
+    final static String MID_LAYER_F2L_BACK_RIGHT = "at the back-right slot.\nSimply " + ROTATION_PHRASE_Y + "and perform the following algorithm so that it ends up at the top layer:\n";
+    final static String MID_LAYER_F2L_FRONT_RIGHT = "at the front-right slot.\nSimply perform the following algorithm so that it ends up at the top layer:\n";
+    final static String MID_LAYER_F2L_FRONT_LEFT = "at the front-left slot.\n";
+    final static String MID_LAYER_F2L_FRONT_LEFT_UNSOLVED = "And unfortunately it looks unsolved so we have to " + ROTATION_PHRASE_Yi + "so that the edge is moved from the front-left to the front-right" +
         " and perform the following algorithm to re-flip the edge:\n";
-    final static String MID_LAYER_FRONT_LEFT_SOLVED = "But it looks as though it is already solved and in the right location, so let us move onto the next edge.\n";
+    final static String MID_LAYER_F2L_FRONT_LEFT_SOLVED = "But it looks as though it is already solved and in the right location, so let us move onto the next edge.\n";
+    final static String MID_LAYER_F2L_TOP_FRONT = "at the top-front slot.\nSimply turn the top layer to the right (U') so that the piece is located in the top-right slot.\n";
+    final static String MID_LAYER_F2L_TOP_LEFT = "at the top-left slot.\nSimply turn the top layer to the right twice (U2) so that the piece is located in the top-right slot.\n";
+    final static String MID_LAYER_F2L_TOP_RIGHT = "at the top-right slot, which is the correct slot.\n";
+    final static String MID_LAYER_F2L_TOP_BACK = "at the top-back slot.\nSimply turn the top layer to the left (U) so that the piece is located in the top-right slot.\n";
+    final static String MID_LAYER_F2L_INSERT_PT1 = "If we look on the ";
+    final static String MID_LAYER_F2L_INSERT_PT2 = "side on the right, we can see the the edge piece we are trying to insert.\nThe color of the edge piece that is facing the right side is ";
+    final static String MID_LAYER_F2L_INSERT_PT3A = ", which means we need to turn the top layer to the left (U) and perform the following algorithm:\n";
+    final static String MID_LAYER_F2L_INSERT_PT3B = ", which means we need to perform the following algorithm:\n";
 
     final static String TOP_LAYER_EOLL_INITIAL = "Now lets look at the top and solve the yellow cross by counting the amount of yellow-edge stickers that are facing the top side.\nRemember, only account for the" +
         " yellow-EDGE stickers, we do not have to worry about the yellow-corner stickers in this step.\n\n";
@@ -1037,142 +1051,297 @@ public class CubeSolverBeg {
 
     public void insertMiddleEdges() {
         //Red-Blue Mid Edge
-        this.repositionRedAsOne();
         int indexOfRedBlueEdge = this.findPiece(RBEDGE_IDPIECE_EIGHT);
         if (indexOfRedBlueEdge < SECOND_LAYER_INDEX_EIGHT) {
             throw new IllegalStateException("1st Layer Not Solved");
         }
         if (indexOfRedBlueEdge < THIRD_LAYER_INDEX_TWELVE) {
+            this.repositionRedAsOne();
             solutionMessage = solutionMessage + RB_EDGE_MIDDLE_LAYER_INITIAL;
             if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_EIGHT).getId() != RBEDGE_IDPIECE_EIGHT){
                 if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_NINE).getId() == RBEDGE_IDPIECE_EIGHT){
-                    solutionMessage = solutionMessage + MID_LAYER_BACK_LEFT;
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_BACK_LEFT;
                     this.cubeToSolve.rotateY2();
                     this.performRightMidInsert();
                 }
                 else if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_TEN).getId() == RBEDGE_IDPIECE_EIGHT){
-                    solutionMessage = solutionMessage + MID_LAYER_BACK_RIGHT;
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_BACK_RIGHT;
                     this.cubeToSolve.rotateY();
                     this.performRightMidInsert();
                 }
                 else if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_ELEVEN).getId() == RBEDGE_IDPIECE_EIGHT){
-                    solutionMessage = solutionMessage + MID_LAYER_FRONT_RIGHT;
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_RIGHT;
                     this.performRightMidInsert();
                 }
             }
             else{
-                solutionMessage = solutionMessage + MID_LAYER_FRONT_LEFT;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT;
                 if(this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][ZEROTH_COL_ROW_MATRIX] != this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]){
-                    solutionMessage = solutionMessage + MID_LAYER_FRONT_LEFT_UNSOLVED;
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT_UNSOLVED;
                     solutionMessage = solutionMessage + MID_INSERT_FIX;
                     this.cubeToSolve.rotateYi();
                     this.reorientMidInsert();
                 }
                 else{
-                    solutionMessage = solutionMessage + MID_LAYER_FRONT_LEFT_SOLVED;
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT_SOLVED;
                 }
             }
             indexOfRedBlueEdge = this.findPiece(RBEDGE_IDPIECE_EIGHT);
-            this.repositionRedAsOne();
         }
         if (indexOfRedBlueEdge > SECOND_LAYER_INDEX_ELEVEN) {
-            while (this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_TWELVE).getId() != RBEDGE_IDPIECE_EIGHT) {
+            this.repositionBlueAsOne();
+            solutionMessage = solutionMessage + RB_EDGE_TOP_LAYER_INITIAL;
+            if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_TWELVE).getId() == RBEDGE_IDPIECE_EIGHT){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_FRONT;
+                this.cubeToSolve.turnUi();
+            }
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_FOURTEEN).getId() == RBEDGE_IDPIECE_EIGHT){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_LEFT;
+                this.cubeToSolve.turnU2();
+            }
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_SIXTEEN).getId() == RBEDGE_IDPIECE_EIGHT){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_BACK;
                 this.cubeToSolve.turnU();
             }
-            if (this.cubeToSolve.oneCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] != RED_CHAR_FLAG &&
-                this.cubeToSolve.twoCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.oneCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_EIGHTEEN).getId() == RBEDGE_IDPIECE_EIGHT){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_RIGHT;
+            }
+            solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT1;
+            solutionMessage = solutionMessage + BLUE_STRING_FLAG;
+            solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT2;
+            if (this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] != RED_CHAR_FLAG &&
+                this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+                solutionMessage = solutionMessage + RED_STRING_FLAG;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT3A;
                 this.cubeToSolve.turnU();
-                this.cubeToSolve.rotateYi();
                 this.performRightMidInsert();
-            } else if (this.cubeToSolve.oneCenterSide[0][1] == this.cubeToSolve.oneCenterSide[1][1]) {
-                this.cubeToSolve.rotateYi();
+            } else if (this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.fourCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+                solutionMessage = solutionMessage + BLUE_STRING_FLAG;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT3B;
                 this.performLeftMidInsert();
             }
         }
+        solutionMessage = solutionMessage + "\n";
 
         //Blue-Orange Mid Edge
-        this.repositionBlueAsOne();
-        int indexOfBlueOrangeEdge = this.findPiece(9);
-        if (indexOfBlueOrangeEdge < 8) {
+        int indexOfBlueOrangeEdge = this.findPiece(BOEDGE_IDPIECE_NINE);
+        if (indexOfBlueOrangeEdge < SECOND_LAYER_INDEX_EIGHT) {
             throw new IllegalStateException("1st Layer Not Solved");
         }
-        if (indexOfBlueOrangeEdge < 12) {
-            while (this.cubeToSolve.currentCubeState.get(11).getId() != 9) {
-                this.cubeToSolve.rotateY();
-            }
-            this.performRightMidInsert();
-            indexOfBlueOrangeEdge = this.findPiece(9);
+        if (indexOfBlueOrangeEdge < THIRD_LAYER_INDEX_TWELVE) {
             this.repositionBlueAsOne();
+            solutionMessage = solutionMessage + BO_EDGE_MIDDLE_LAYER_INITIAL;
+            if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_EIGHT).getId() != BOEDGE_IDPIECE_NINE){
+                if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_NINE).getId() == BOEDGE_IDPIECE_NINE){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_BACK_LEFT;
+                    this.cubeToSolve.rotateY2();
+                    this.performRightMidInsert();
+                }
+                else if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_TEN).getId() == BOEDGE_IDPIECE_NINE){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_BACK_RIGHT;
+                    this.cubeToSolve.rotateY();
+                    this.performRightMidInsert();
+                }
+                else if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_ELEVEN).getId() == BOEDGE_IDPIECE_NINE){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_RIGHT;
+                    this.performRightMidInsert();
+                }
+            }
+            else{
+                solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT;
+                if(this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][ZEROTH_COL_ROW_MATRIX] != this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT_UNSOLVED;
+                    solutionMessage = solutionMessage + MID_INSERT_FIX;
+                    this.cubeToSolve.rotateYi();
+                    this.reorientMidInsert();
+                }
+                else{
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT_SOLVED;
+                }
+            }
+            indexOfBlueOrangeEdge = this.findPiece(BOEDGE_IDPIECE_NINE);
         }
-        if (indexOfBlueOrangeEdge > 11) {
-            while (this.cubeToSolve.currentCubeState.get(12).getId() != 9) {
+        if (indexOfBlueOrangeEdge > SECOND_LAYER_INDEX_ELEVEN) {
+            this.repositionOrangeAsOne();
+            solutionMessage = solutionMessage + BO_EDGE_TOP_LAYER_INITIAL;
+            if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_TWELVE).getId() == BOEDGE_IDPIECE_NINE){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_FRONT;
+                this.cubeToSolve.turnUi();
+            }
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_FOURTEEN).getId() == BOEDGE_IDPIECE_NINE){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_LEFT;
+                this.cubeToSolve.turnU2();
+            }
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_SIXTEEN).getId() == BOEDGE_IDPIECE_NINE){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_BACK;
                 this.cubeToSolve.turnU();
             }
-            if (this.cubeToSolve.oneCenterSide[0][1] != 'b' && this.cubeToSolve.twoCenterSide[1][1] == this.cubeToSolve.oneCenterSide[0][1]) {
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_EIGHTEEN).getId() == BOEDGE_IDPIECE_NINE){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_RIGHT;
+            }
+            solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT1;
+            solutionMessage = solutionMessage + ORANGE_STRING_FLAG;
+            solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT2;
+            if (this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] != BLUE_CHAR_FLAG &&
+                this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+                solutionMessage = solutionMessage + BLUE_STRING_FLAG;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT3A;
                 this.cubeToSolve.turnU();
-                this.cubeToSolve.rotateYi();
                 this.performRightMidInsert();
-            } else if (this.cubeToSolve.oneCenterSide[0][1] == this.cubeToSolve.oneCenterSide[1][1]) {
-                this.cubeToSolve.rotateYi();
+            } else if (this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.fourCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+                solutionMessage = solutionMessage + ORANGE_STRING_FLAG;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT3B;
                 this.performLeftMidInsert();
             }
         }
+        solutionMessage = solutionMessage + "\n";
 
         //Orange-Green Mid Edge
-        this.repositionOrangeAsOne();
-        int indexOfOrangeGreenEdge = this.findPiece(10);
-        if (indexOfOrangeGreenEdge < 8) {
+        int indexOfOrangeGreenEdge = this.findPiece(OGEDGE_IDPIECE_TEN);
+        if (indexOfOrangeGreenEdge < SECOND_LAYER_INDEX_EIGHT) {
             throw new IllegalStateException("1st Layer Not Solved");
         }
-        if (indexOfOrangeGreenEdge < 12) {
-            while (this.cubeToSolve.currentCubeState.get(11).getId() != 10) {
-                this.cubeToSolve.rotateY();
+        if (indexOfOrangeGreenEdge < THIRD_LAYER_INDEX_TWELVE) {
+            this.repositionBlueAsOne();
+            solutionMessage = solutionMessage + OG_EDGE_MIDDLE_LAYER_INITIAL;
+            if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_EIGHT).getId() != OGEDGE_IDPIECE_TEN){
+                if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_NINE).getId() == OGEDGE_IDPIECE_TEN){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_BACK_LEFT;
+                    this.cubeToSolve.rotateY2();
+                    this.performRightMidInsert();
+                }
+                else if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_TEN).getId() == OGEDGE_IDPIECE_TEN){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_BACK_RIGHT;
+                    this.cubeToSolve.rotateY();
+                    this.performRightMidInsert();
+                }
+                else if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_ELEVEN).getId() == OGEDGE_IDPIECE_TEN){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_RIGHT;
+                    this.performRightMidInsert();
+                }
             }
-            this.performRightMidInsert();
-            indexOfOrangeGreenEdge = this.findPiece(10);
-            this.repositionOrangeAsOne();
+            else{
+                solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT;
+                if(this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][ZEROTH_COL_ROW_MATRIX] != this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT_UNSOLVED;
+                    solutionMessage = solutionMessage + MID_INSERT_FIX;
+                    this.cubeToSolve.rotateYi();
+                    this.reorientMidInsert();
+                }
+                else{
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT_SOLVED;
+                }
+            }
+            indexOfOrangeGreenEdge = this.findPiece(OGEDGE_IDPIECE_TEN);
         }
-        if (indexOfOrangeGreenEdge > 11) {
-            while (this.cubeToSolve.currentCubeState.get(12).getId() != 10) {
+        if (indexOfOrangeGreenEdge > SECOND_LAYER_INDEX_ELEVEN) {
+            this.repositionGreenAsOne();
+            solutionMessage = solutionMessage + OG_EDGE_TOP_LAYER_INITIAL;
+            if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_TWELVE).getId() == OGEDGE_IDPIECE_TEN){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_FRONT;
+                this.cubeToSolve.turnUi();
+            }
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_FOURTEEN).getId() == OGEDGE_IDPIECE_TEN){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_LEFT;
+                this.cubeToSolve.turnU2();
+            }
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_SIXTEEN).getId() == OGEDGE_IDPIECE_TEN){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_BACK;
                 this.cubeToSolve.turnU();
             }
-            if (this.cubeToSolve.oneCenterSide[0][1] != 'o' && this.cubeToSolve.twoCenterSide[1][1] == this.cubeToSolve.oneCenterSide[0][1]) {
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_EIGHTEEN).getId() == OGEDGE_IDPIECE_TEN){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_RIGHT;
+
+            }
+            solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT1;
+            solutionMessage = solutionMessage + GREEN_STRING_FLAG;
+            solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT2;
+            if (this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] != ORANGE_CHAR_FLAG &&
+                this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+                solutionMessage = solutionMessage + ORANGE_STRING_FLAG;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT3A;
                 this.cubeToSolve.turnU();
-                this.cubeToSolve.rotateYi();
                 this.performRightMidInsert();
-            } else if (this.cubeToSolve.oneCenterSide[0][1] == this.cubeToSolve.oneCenterSide[1][1]) {
-                this.cubeToSolve.rotateYi();
+            } else if (this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.fourCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+                solutionMessage = solutionMessage + GREEN_STRING_FLAG;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT3B;
                 this.performLeftMidInsert();
             }
         }
+        solutionMessage = solutionMessage + "\n";
 
         //Green-Red Mid Edge
-        this.repositionGreenAsOne();
-        int indexOfGreenRedEdge = this.findPiece(11);
-        if (indexOfGreenRedEdge < 8) {
+        int indexOfGreenRedEdge = this.findPiece(GREDGE_IDPIECE_ELEVEN);
+        if (indexOfGreenRedEdge < SECOND_LAYER_INDEX_EIGHT) {
             throw new IllegalStateException("1st Layer Not Solved");
         }
-        if (indexOfGreenRedEdge < 12) {
-            while (this.cubeToSolve.currentCubeState.get(11).getId() != 11) {
-                this.cubeToSolve.rotateY();
-            }
-            this.performRightMidInsert();
-            indexOfGreenRedEdge = this.findPiece(11);
+        if (indexOfGreenRedEdge < THIRD_LAYER_INDEX_TWELVE) {
             this.repositionGreenAsOne();
+            solutionMessage = solutionMessage + GR_EDGE_MIDDLE_LAYER_INITIAL;
+            if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_EIGHT).getId() != GREDGE_IDPIECE_ELEVEN){
+                if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_NINE).getId() == GREDGE_IDPIECE_ELEVEN){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_BACK_LEFT;
+                    this.cubeToSolve.rotateY2();
+                    this.performRightMidInsert();
+                }
+                else if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_TEN).getId() == GREDGE_IDPIECE_ELEVEN){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_BACK_RIGHT;
+                    this.cubeToSolve.rotateY();
+                    this.performRightMidInsert();
+                }
+                else if(this.cubeToSolve.currentCubeState.get(SECOND_LAYER_INDEX_ELEVEN).getId() == GREDGE_IDPIECE_ELEVEN){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_RIGHT;
+                    this.performRightMidInsert();
+                }
+            }
+            else{
+                solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT;
+                if(this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][ZEROTH_COL_ROW_MATRIX] != this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]){
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT_UNSOLVED;
+                    solutionMessage = solutionMessage + MID_INSERT_FIX;
+                    this.cubeToSolve.rotateYi();
+                    this.reorientMidInsert();
+                }
+                else{
+                    solutionMessage = solutionMessage + MID_LAYER_F2L_FRONT_LEFT_SOLVED;
+                }
+            }
+            indexOfGreenRedEdge = this.findPiece(GREDGE_IDPIECE_ELEVEN);
         }
-        if (indexOfGreenRedEdge > 11) {
-            while (this.cubeToSolve.currentCubeState.get(12).getId() != 11) {
+        if (indexOfGreenRedEdge > SECOND_LAYER_INDEX_ELEVEN) {
+            this.repositionRedAsOne();
+            solutionMessage = solutionMessage + GR_EDGE_TOP_LAYER_INITIAL;
+            if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_TWELVE).getId() == GREDGE_IDPIECE_ELEVEN){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_FRONT;
+                this.cubeToSolve.turnUi();
+            }
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_FOURTEEN).getId() == GREDGE_IDPIECE_ELEVEN){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_LEFT;
+                this.cubeToSolve.turnU2();
+            }
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_SIXTEEN).getId() == GREDGE_IDPIECE_ELEVEN){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_BACK;
                 this.cubeToSolve.turnU();
             }
-            if (this.cubeToSolve.oneCenterSide[0][1] != 'g' && this.cubeToSolve.twoCenterSide[1][1] == this.cubeToSolve.oneCenterSide[0][1]) {
+            else if(this.cubeToSolve.currentCubeState.get(THIRD_LAYER_INDEX_EIGHTEEN).getId() == GREDGE_IDPIECE_ELEVEN){
+                solutionMessage = solutionMessage + MID_LAYER_F2L_TOP_RIGHT;
+            }
+            solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT1;
+            solutionMessage = solutionMessage + RED_STRING_FLAG;
+            solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT2;
+            if (this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] != GREEN_CHAR_FLAG &&
+                this.cubeToSolve.oneCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+                solutionMessage = solutionMessage + GREEN_STRING_FLAG;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT3A;
                 this.cubeToSolve.turnU();
-                this.cubeToSolve.rotateYi();
                 this.performRightMidInsert();
-            } else if (this.cubeToSolve.oneCenterSide[0][1] == this.cubeToSolve.oneCenterSide[1][1]) {
-                this.cubeToSolve.rotateYi();
+            } else if (this.cubeToSolve.fourCenterSide[ZEROTH_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX] == this.cubeToSolve.fourCenterSide[FIRST_COL_ROW_MATRIX][FIRST_COL_ROW_MATRIX]) {
+                solutionMessage = solutionMessage + RED_STRING_FLAG;
+                solutionMessage = solutionMessage + MID_LAYER_F2L_INSERT_PT3B;
                 this.performLeftMidInsert();
             }
         }
+        solutionMessage = solutionMessage + "\n";
     }
 
     public void orientYellowEdges() {
